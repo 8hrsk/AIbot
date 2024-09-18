@@ -12,8 +12,6 @@ class PhiHandler {
 
     async sendRequest(message, callback) {
         const status = new Status();
-        status.success();
-
         const response = await this.client.path("/chat/completions").post({
             body: {
                 messages: [

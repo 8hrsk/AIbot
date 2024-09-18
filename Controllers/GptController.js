@@ -11,7 +11,6 @@ class GptHandler {
 
     async sendRequest(message, callback) {
         const status = new Status();
-        status.success();
         const response = await this.client.chat.completions.create({
             messages: [
               { role:"user", content: message }

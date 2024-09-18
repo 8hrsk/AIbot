@@ -1,8 +1,10 @@
 import axios from "axios"
 import Status from "./StatusController.js";
+import ResponseController from "./ResponseController.js";
 
 class Llama {
-    constructor() {
+    constructor(instructions) {
+        this.instructions = instructions;
         this.status = new Status();
     }
 
@@ -12,7 +14,7 @@ class Llama {
             "messages": [
                 {
                     "role": "user",
-                    "content": message,
+                    "content": this.instructions + message,
                     "temperature": 0.1
                 }
             ]
@@ -25,7 +27,10 @@ class Llama {
             callback("Bad request.\n\nServer responded with an error.")
         }
 
-        callback(response.data.choices[0].message.content);
+        const responseController = new ResponseController(response.data.choices[0].message.content);
+
+        callback(responseController.message());
+        console.log(responseController.Instruction());
     }
 }
 

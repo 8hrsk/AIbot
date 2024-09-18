@@ -16,12 +16,18 @@ class BotHandler {
         const chatId = message.update.message.chat.id
 
         if (chatType === 'private') {
+            if (messageText === undefined) {
+                this.sendMessage(chatId, 'This bot can handle only text messages.');
+                return;
+            };
             this.gptClient.sendRequest(messageText, (response) => {
                 this.sendMessage(chatId, response);
                 console.log(`${chatType}: ${messageText} -> ${response}`, chatId);
             });
             return;
         }
+
+        if (messageText === undefined) return;
 
         if (messageText.includes('@eighthoursbot')) {
             this.gptClient.sendRequest(messageText, (response) => {
